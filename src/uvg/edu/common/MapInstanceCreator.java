@@ -14,7 +14,7 @@ import uvg.edu.store.Producto;
  * @author Brian Carrillo
  *
  */
-public class MapInstanceCreator {
+public class MapInstanceCreator<K,V> {
 	
 	public Map getInstance(String typeStructure) {
 		
@@ -23,15 +23,15 @@ public class MapInstanceCreator {
 		switch(typeStructure) {
 		
 			case "HashMap":
-				myStructure = new HashMap<String,Producto>();
+				myStructure = new HashMap<K,V>();
 				break;
 			
 			case "TreeMap":
-				myStructure = new TreeMap<String,Producto>();
+				myStructure = new TreeMap<K,V>();
 				break;
 				
 			case "LinkedHashMap":
-				myStructure = new LinkedHashMap<String,Producto>();
+				myStructure = new LinkedHashMap<K,V>();
 				break;
 				
 			default:

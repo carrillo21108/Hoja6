@@ -16,8 +16,6 @@ import java.util.*;
 
 import uvg.edu.common.MapInstanceCreator;
 import uvg.edu.store.Producto;
-import java.util.Random;
-
 import java.security.*;
 
 /**
@@ -28,7 +26,7 @@ import java.security.*;
 
 public class Reader {
 	
-		private MapInstanceCreator mapFactory = new MapInstanceCreator();
+		private MapInstanceCreator<String,String> mapFactory = new MapInstanceCreator<String,String>();
 		private String ruta;
 		private Random rand = new Random();
 		
@@ -88,32 +86,15 @@ public class Reader {
 
 			for(String fila:filas) {
 				String[] data = fila.split("\\|\t");
-            	Producto producto = new Producto(data[0], data[1], rand.nextInt(100));
-				hashTable.put(hash_function(producto), producto);
+				hashTable.put(hash_function(data[0],data[1]), data[1]);
 			}
 			
 			return hashTable;
 		}
 		
-		public static String hash_function(Producto producto) {
+		public static String hash_function(String categoria, String descripcion) {
 			
-			String root = producto.getCategoria()+producto.getDescripcion();
-			String code="";
-			
-			byte[] bytes = root.getBytes(StandardCharsets.US_ASCII);
-			byte[] theMD5digest;
-			
-			try {
-				
-				MessageDigest md = MessageDigest.getInstance("MD5");
-				theMD5digest = md.digest(bytes);
-				for(byte a:theMD5digest) {
-					code = code+String.valueOf(a);
-				}
-				
-			}catch(Exception e) {
-				System.out.println("Error al generar key");
-			}
+			String code = categoria.trim()+"-"+descripcion.trim();
 			
 			return code;
 		}
