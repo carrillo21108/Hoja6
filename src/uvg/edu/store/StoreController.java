@@ -73,9 +73,9 @@ public class StoreController {
 		Iterator it = inventario.entrySet().iterator();
 	    while (it.hasNext() && busqueda==false) {
 	        Map.Entry pair = (Map.Entry) it.next();
-	        Producto producto = (Producto) pair.getValue();
-	        if(producto.getDescripcion().equals(descripcionBusqueda)) {
-	        	resultado = "La categoria del producto ingresado es: " + producto.getCategoria();
+	        String values = (String)pair.getKey();
+	        if(values.split("-")[1].equals(descripcionBusqueda)) {
+	        	resultado = "La categoria del producto ingresado es: " + values.split("-")[0];
 	        	busqueda = true;
 	        }
 	    }
@@ -94,7 +94,10 @@ public class StoreController {
 	    while (it.hasNext()) {
 	        Map.Entry pair = (Map.Entry) it.next();
 	        
-	        resultado += (String)pair.getValue();
+	        Producto producto = (Producto)pair.getValue();
+	        
+	        resultado += producto.toString();
+	        resultado += "\n";
 	    }
 	    
 	    if(carrito.size()==0) {
@@ -141,6 +144,8 @@ public class StoreController {
 	        String llave = (String) pair.getKey();
 	        String[] values = llave.split("-");
 	        resultado += values[0]+" | "+values[1];
+	        resultado += "\n";
+	        
 	    }
 		
 		return resultado;
