@@ -3,7 +3,7 @@
  * @author Brian Carrillo
  * @version 1.0
  *
- * En esta clase se utilizan las clases File, FileReader y BufferedReader 
+ * En esta clase se utilizan las clases InputStreamReader y BufferedReader 
  * para escanear el contenido del archivo de datos.
  */
 
@@ -35,23 +35,20 @@ public class Reader {
 		}
     
 		/**
-	     * Metodo leerTxt: sirve para leer el archivo y almacenar lo encontrado en un ArrayList de Strings.
-	     * 
+	     * Lee el archivo txt y genera una estructura MAP con los datos
 	     * @see System.out#println()
-	     * @see java.io.File()
-	     * @see java.io.FileReader()
+	     * @see java.io.InputStreamReader()
 	     * @see java.io.BufferedReader()
 	     * @see java.util.ArrayList()
 	     */
 		public ArrayList<String> leerTxt(){
 
-	        File archivo = null;
-	        FileReader fr = null;
 	        BufferedReader br = null;
+	        InputStreamReader fr = null;
 	        
 	        try {
-	            archivo = new File (this.ruta);
-	            fr = new FileReader (archivo);
+	        	//Creacion archivo
+	            fr = new InputStreamReader(new FileInputStream(this.ruta),"UTF-8");
 	            br = new BufferedReader(fr);
 
 	            // Lectura del fichero
@@ -59,6 +56,7 @@ public class Reader {
 	            
 	            String linea;
 	            
+	            //Agregacion de filas a Arraylist
 	            while((linea=br.readLine())!=null){
 	            	filas.add(linea);
 	            }
@@ -70,6 +68,7 @@ public class Reader {
 	        	System.out.println("La ruta del archivo proporcionada no existe." + ruta);
 	        	
 	        }finally{
+	        	//Ciere del archivo
 	            try{                    
 	                if( null != fr ){   
 	                    fr.close();     
@@ -81,6 +80,12 @@ public class Reader {
 	        return null;
 	    }
 		
+		/**
+		 * Obtiene la data y genera una estructura MAP
+		 * @param filas: filas del archivo
+		 * @param typeStructure: tipo de estructura
+		 * @return Map: Implementación de Map
+		 */
 		public Map obtenerData(ArrayList<String> filas, String typeStructure) {
 			Map hashTable = mapFactory.getInstance(typeStructure);
 
@@ -92,6 +97,11 @@ public class Reader {
 			return hashTable;
 		}
 		
+		/**
+		 * Funcion para crear llaves unicas
+		 * @param categoria: categoria del producto
+		 * @param descripcion: descripcion del producto
+		 */
 		public static String hash_function(String categoria, String descripcion) {
 			
 			String code = categoria.trim()+"-"+descripcion.trim();
